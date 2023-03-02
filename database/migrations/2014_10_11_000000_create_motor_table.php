@@ -15,7 +15,15 @@ class CreateMotorTable extends Migration
     {
         Schema::create('motor', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('nama_motor', 50);
+            $table->string('merk', 50);
+            $table->unsignedBigInteger('tipe_id')->nullable();
+            $table->string('no_kendaraan', 50);
+            $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
