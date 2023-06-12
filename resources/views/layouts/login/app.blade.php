@@ -16,6 +16,7 @@
 
     <!-- My Style -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css')}}">
+    <link href="{{ URL::asset('/css/tooltips.css') }}" rel="stylesheet">
 
 
     <title>@yield('title')</title>
@@ -73,6 +74,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ route('profileUser') }}"><i class="fa-solid fa-user mr-2"></i>Profile</a>
+                                <a class="dropdown-item" href="{{ route('profileUser') }}"><i class="fa-solid fa-wallet mr-2"></i>Transaksi Selesai</a>
                                 <a class="dropdown-item" href="{{ route('motor') }}"><i class="fas fa-motorcycle mr-2"></i>Motor</a>
                                 <a class="dropdown-item" href="{{ route('ubahPassword') }}"><i class="fa-solid fa-lock mr-2"></i>Ubah Password</a>
                                 <a class="dropdown-item" href="" data-toggle="modal" data-target="#logout"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</a>
@@ -162,8 +164,8 @@
         <div
             class="text-center p-3"
             style="background-color: rgba(0, 0, 0, 0.2)">
-            &copy; {{ date('Y') }} Copyright:
-            <a class="text-white" href="https://mdbootstrap.com/">Otista Motor</a>
+            &copy; {{ date('Y') }} Copyright
+            <a class="text-white" href="{{URL::to('/')}}">Otista Motor</a>
         </div>
         <!-- Copyright -->
     </footer>
@@ -175,5 +177,10 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+		$(function () {
+			$('[data="tooltip"]').tooltip();
+		});
+	</script>
   </body>
 </html>

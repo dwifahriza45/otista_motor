@@ -9,55 +9,19 @@
     <hr class="mb-3" style="width: 400px; background-color: #000; height: 2px" />
 </div>
 
-
 <div class="container">
-    <button type="button" class="btn text-light mb-3" style="background-color: #78221c;" data-toggle="modal" data-target="#exampleModal">
+    <a href="{{ route('getMotor') }}" class="btn text-light mb-3" style="background-color: #78221c;">
         <i class="fa-solid fa-plus"></i> Tambah Data Motor
-    </button>
+    </a>
 
-    <!-- Modal Tambah -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Tambah Data Motor</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="name_motor" class="col-form-label">Nama Motor</label>
-                        <input type="text" class="form-control" id="name_motor" name="merk_motor" placeholder="Masukkan nama motor . . .">
-                    </div>
-                    <div class="form-group">
-                        <label for="merk_motor" class="col-form-label">Merk Motor</label>
-                        <input type="text" class="form-control" id="merk_motor" name="merk_motor" placeholder="Masukkan merk motor . . .">
-                    </div>
-                    <div class="form-group">
-                        <label for="tipe_motor" class="col-form-label">Tipe Motor</label>
-                        <select class="form-control" id="tipe_motor" name="tipe_motor">
-                            <option value="#">- Pilih -</option>
-                            <option value="#">Matic</option>
-                            <option value="#">Manual</option>
-                            <option value="#">Kopling</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="no_kendaraan" class="col-form-label">Nomor Kendaraan</label>
-                        <input type="text" class="form-control" id="no_kendaraan" name="no_kendaraan" placeholder="Masukkan nomor kendaraan . . .">
-                    </div>
-            </div>
-            <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn text-light" style="background-color: #78221c">Simpan</button>
-                </form>
-            </div>
-        </div>
-        </div>
+    @if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <!-- end modal tambah -->
+    @endif
 
     <table class="table">
         <thead class="thead text-light" style="background-color: #78221c;">
@@ -71,125 +35,44 @@
         </tr>
         </thead>
         <tbody>
+            @php $i = 1; @endphp
+            @foreach ($motor as $m)
+            @if ($m->user_id == Auth::user()->id)
             <tr>
-                <th scope="row">1</th>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>glorium</td>
+                <th scope="row">{{ $i++ }}</th>
+                <td>{{ $m->nama_motor }}</td>
+                <td>{{ $m->merk }}</td>
+                <td>{{ $m->this_type->tipe }}</td>
+                <td>{{ $m->no_kendaraan }}</td>
                 <td>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ubah-motor"><i class="fa-solid fa-pen-to-square"></i> Ubah</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-motor"><i class="fa-solid fa-trash"></i> Hapus</button>
+                    <a href="{{ route('updateMotor', $m->id) }}" class="btn btn-success" data="tooltip" data-placement="top" title="Ubah"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="" class="btn btn-danger" data-toggle="modal" data="tooltip" data-placement="top" title="Hapus" data-target="#delete{{ $m->id }}"><i class="fa-solid fa-trash"></i></a>
                 </td>
             </tr>
-
-            <tr>
-                <th scope="row">1</th>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>glorium</td>
-                <td>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ubah-motor"><i class="fa-solid fa-pen-to-square"></i> Ubah</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-motor"><i class="fa-solid fa-trash"></i> Hapus</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>glorium</td>
-                <td>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ubah-motor"><i class="fa-solid fa-pen-to-square"></i> Ubah</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-motor"><i class="fa-solid fa-trash"></i> Hapus</button>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">1</th>
-                <td>Lorem</td>
-                <td>ipsum</td>
-                <td>dolor</td>
-                <td>glorium</td>
-                <td>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#ubah-motor"><i class="fa-solid fa-pen-to-square"></i> Ubah</button>
-                </td>
-                <td>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#hapus-motor"><i class="fa-solid fa-trash"></i> Hapus</button>
-                </td>
-            </tr>
-
-            <!-- Modal ubah -->
-            <div class="modal fade" id="ubah-motor" tabindex="-1" role="dialog" aria-labelledby="ubah-motor" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title" id="ubah-motor">Ubah Data Motor Lorem</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="name_motor" class="col-form-label">Nama Motor</label>
-                                <input type="text" class="form-control" id="name_motor" name="merk_motor" value="Lorem">
-                            </div>
-                            <div class="form-group">
-                                <label for="merk_motor" class="col-form-label">Merk Motor</label>
-                                <input type="text" class="form-control" id="merk_motor" name="merk_motor" value="Lorem">
-                            </div>
-                            <div class="form-group">
-                                <label for="tipe_motor" class="col-form-label">Tipe Motor</label>
-                                <select class="form-control" id="tipe_motor" name="tipe_motor">
-                                    <option value="#">- Pilih -</option>
-                                    <option value="#">Matic</option>
-                                    <option value="#">Manual</option>
-                                    <option value="#">Kopling</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="no_kendaraan" class="col-form-label">Nomor Kendaraan</label>
-                                <input type="text" class="form-control" id="no_kendaraan" name="no_kendaraan" value="lorem">
-                            </div>
-                    </div>
-                    <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn text-light" style="background-color: #78221c">Simpan</button>
-                        </form>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <!-- end modal ubah -->
 
             <!-- Modal hapus -->
-            <div class="modal fade" id="hapus-motor" tabindex="-1" role="dialog" aria-labelledby="hapus-motor" aria-hidden="true">
+            <div class="modal fade" id="delete{{ $m->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="hapus-motor">Hapus Data Motor Lorem</h5>
+                    <h5 class="modal-title" id="hapus-motor">Hapus Data Motor {{ $m->nama_motor }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     </div>
                     <div class="modal-body">
-                        Yakin ingin menghapus data motor lorem tersebut!
+                        Yakin ingin menghapus data motor <b>{{ $m->nama_motor }}</b> tersebut!
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn text-light" style="background-color: #78221c"><i class="fa-solid fa-trash"></i> Hapus</button>
+                        <a href="{{ route('hapusMotor', $m->id) }}" class="btn text-light" style="background-color: #78221c"><i class="fa-solid fa-trash"></i> Hapus</a>
                     </div>
                 </div>
                 </div>
             </div>
             <!-- end modal hapus -->
+            @endif
+            @endforeach
         </tbody>
     </table>
 </div>

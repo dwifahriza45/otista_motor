@@ -43,17 +43,6 @@
                                     </div>
 
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="name">Nama Lengkap</label>
-                                        <input id="name" type="text" class="form-control form-control-lg @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap . . .">
-
-                                        @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="form-outline mb-4">
                                         <label class="form-label" for="email">Email</label>
                                         <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" placeholder="example@email.com">
 

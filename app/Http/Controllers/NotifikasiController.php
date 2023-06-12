@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Service;
 
 class NotifikasiController extends Controller
 {
     public function index()
     {
-        return view('user/notifikasi');
+        $userId = Auth::id();
+        $notif = Service::where('user_id', $userId)->get();
+        return view('user/notifikasi', compact('notif'));
     }
 }

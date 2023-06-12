@@ -6,26 +6,25 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
+            @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('status') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+
+            @if (session('fail'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('fail') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+                @endif
             <div class="card">
                 <div class="card-header text-white text-center" style="background-color: #78221c">{{ __('Profile') }}</div>
-                 
-                @if (session('status'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
-
-                @if (session('fail'))
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{ session('fail') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('profileUser') }}">
@@ -94,7 +93,7 @@
                             <label for="alamat" class="col-md-4 col-form-label text-md-right">{{ __('Alamat Lengkap') }}</label>
 
                             <div class="col-md-6">
-                                <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" id="alamat" rows="3">{{ !is_null($user->alamat) ? $user->alamat : old('alamat') }}</textarea>
+                                <textarea class="form-control @error('alamat') is-invalid @enderror" name="alamat" id="alamat" placeholder="Masukkan alamat lengkap . . ." rows="3">{{ !is_null($user->alamat) ? $user->alamat : old('alamat') }}</textarea>
 
                                 @error('alamat')
                                     <span class="invalid-feedback" role="alert">

@@ -16,9 +16,13 @@
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/7bd248f835.js" crossorigin="anonymous"></script>
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('/css/tooltips.css') }}" rel="stylesheet">
 
 </head>
 
@@ -31,7 +35,7 @@
         <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{URL::to('/')}}">
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-motorcycle"></i>
                 </div>
@@ -176,11 +180,11 @@
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('profileAdmin') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
                                 </a>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('ubahPasswordAdmin') }}">
                                     <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Ubah Password
                                 </a>
@@ -260,6 +264,13 @@
     <script src="{{ asset('/sbadmin/js/demo/chart-area-demo.js') }}"></script>
     <script src="{{ asset('/sbadmin/js/demo/chart-pie-demo.js') }}"></script>
 
+    <script>
+		$(function () {
+			$('[data="tooltip"]').tooltip();
+		});
+	</script>
+
+    @yield('js')
 </body>
 
 </html>

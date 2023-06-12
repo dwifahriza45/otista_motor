@@ -3,5 +3,185 @@
 @section('title', 'Halaman Service - Otista Motor')
 
 @section('content')
-<h1>Halaman Service</h1>
+<div class="container mt-4">
+    <div class="row justify-content-around">
+        <div class="col-md-8">
+            <div class="card">
+                @if (session('status'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('status') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
+
+                @if (session('fail'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ session('fail') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @endif
+                <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Service') }}</b></div>
+
+                <div class="card-body">
+                    <form method="POST" action="{{ route('createService') }}">
+                        @csrf
+                        <div class="row justify-content-around">
+                            <div class="col-md-6">
+                                <p for="" style="margin-bottom: -0.5px;" class="font-weight-bold">Nama Pelanggan</p>
+                                <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
+                                <p for="" style="margin-bottom: -0.5px;">{{ auth()->user()->name }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                @if ($motor->count() > 0)
+                                <p for="motor_id" style="margin-bottom: -0.5px;" class="font-weight-bold">Motor</p>
+                                <select class="form-control @error('motor_id') is-invalid @enderror" id="motor_id" name="motor_id">
+                                    @foreach ($motor as $m)
+                                    <option value="{{ $m->id }}">{{ $m->nama_motor }}</option>
+                                    @endforeach
+                                </select>
+                                @else
+                                <p for="motor_id" style="margin-bottom: -0.5px;" class="font-weight-bold">Motor</p>
+                                <p for="motor_id" style="margin-bottom: -0.5px;" class="text-danger">Mohon untuk mengisi data motor</p>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="row justify-content-around mt-3">
+                            <div class="col-md-6">
+                                <p for="kilometer" style="margin-bottom: -0.5px;" class="font-weight-bold">Kilometer</p>
+                                <input type="number" class="form-control @error('kilometer') is-invalid @enderror" id="kilometer" name="kilometer" placeholder="Masukkan km motor . . ." value="{{ old('kilometer') }}" autofocus>
+
+                                @error('kilometer')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-6">
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                <p for="keluhan" style="margin-bottom: -0.5px;" class="font-weight-bold">Keterangan</p>
+                                <textarea cols="15" rows="10" class="form-control @error('keluhan') is-invalid @enderror" name="keluhan" id="keluhan" placeholder="Ganti Oli (Top One), kampas rem, dll . . ."></textarea>
+                                @error('keluhan')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="col-md-12 mt-3">
+                                @if ($cekService > 0)
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#process"><b>Service</b></button>
+
+                                <!-- Modal Konfirmasi Reservasi -->
+                                <div class="modal fade" id="process" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Gagal Reservasi</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Anda masih memiliki proses reservasi yang <b>belum selesai</b>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @elseif ($motor->count() > 0 && auth()->user()->alamat != null && auth()->user()->no_hp != null && $cekService == 0)
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#reservasi"><b>Service</b></button>
+
+                                <!-- Modal Sedang Dalam Process -->
+                                <div class="modal fade" id="reservasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Reservasi</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Yakin ingin melakukan <b>Reservasi</b>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-success"><b>Service</b></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @else
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#lengkapi"><b>Service</b></button>
+
+                                <!-- Modal Lengkapi Profile & Motor -->
+                                <div class="modal fade" id="lengkapi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Gagal Pemesanan Service</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Mohon untuk melengkapi <b>Profile & Motor</b> terlebih dahulu
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Antrian') }}</b></div>
+                <div class="card-body">
+                    <h1 class="text-center font-weight-bold">5</h1>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Sparepart Tersedia') }}</b></div>
+                <div class="card-body" style="overflow-y: auto; max-height: 356px;">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Sparepart</th>
+                                <th scope="col">Merk</th>
+                                <th scope="col">Stok</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php $i = 1; @endphp
+                            @foreach ($sparepart as $s)
+                            <tr>
+                                <th scope="row">{{ $i++ }}</th>
+                                <td>{{ $s->sparepart }}</td>
+                                <td>merk</td>
+                                <td>Tersedia</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

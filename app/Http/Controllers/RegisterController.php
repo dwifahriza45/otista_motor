@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use Carbon\Carbon;
 
 
 class RegisterController extends Controller
@@ -30,9 +31,11 @@ class RegisterController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ], $messages);
 
+        $validateData['image'] = 'profile/default_profile.png';
         $validateData['password'] = Hash::make($validateData['password']);
         $validateData['role_id'] = 2;
-        $validateData['image'] = 'profile/default_profile.jpg';
+        $validateData['created_at'] = Carbon::now()->format('Y-m-d H:i:s');
+        $validateData['updated_at'] = Carbon::now()->format('Y-m-d H:i:s');
 
         User::create($validateData);
 

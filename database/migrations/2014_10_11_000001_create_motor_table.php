@@ -24,6 +24,7 @@ class CreateMotorTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('tipe_id')->references('id')->on('motor_type');
         });
     }
 

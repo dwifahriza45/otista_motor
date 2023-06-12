@@ -33,6 +33,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make('admin'),
             'image' => 'profile/default_profile.png',
             'role_id' => 1,
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
         ]);
     }
 }
