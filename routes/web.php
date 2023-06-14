@@ -54,6 +54,8 @@ Route::group(['middleware' => ['auth', 'ceklevel:2']], function () {
 
     Route::get('/ubah/password', 'UbahPasswordController@index')->name('ubahPassword');
     Route::post('/ubah/password', 'UbahPasswordController@changePassword')->name('ubahPassword');
+
+    Route::get('/transaksi/selesai', 'CompleteTransController@index')->name('CompTrans');
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
@@ -72,7 +74,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
 
     Route::get('/admin/service', 'AdminController@service')->name('service');
     Route::get('/admin/service/{id}', 'ServiceController@approve_admin')->name('approve_admin');
-    Route::post('/admin/service/{id}', 'ServiceController@reject_admin')->name('reject_admin');
+    Route::post('/admin/service/reject/{id}', 'ServiceController@reject_admin')->name('reject_admin');
 
     Route::get('/admin/pelanggan', 'AdminController@pelanggan')->name('pelanggan');
 
@@ -86,4 +88,6 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
 
     Route::get('/admin/ubah/password', 'AdminController@ubahPasswordAdmin')->name('ubahPasswordAdmin');
     Route::post('/admin/ubah/password', 'UbahPasswordController@changePassword')->name('ubahPasswordAdmin');
+
+    Route::get('/admin/transaksi/selesai', 'CompleteTransController@transAdmin')->name('CompTransAdmin');
 });

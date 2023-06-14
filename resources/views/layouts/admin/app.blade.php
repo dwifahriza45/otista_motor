@@ -13,12 +13,23 @@
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('/sbadmin/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/7bd248f835.js" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -82,6 +93,13 @@
                     <span>Data Service</span></a>
             </li>
 
+            <!-- Nav Item - Transaksi Selesai -->
+            <li class="nav-item {{request()->is('admin/transaksi/selesai') ? ' active' : ''}}">
+                <a class="nav-link" href="{{ route('CompTransAdmin') }}">
+                    <i class="fas fa-book"></i>
+                    <span>Transaksi Selesai</span></a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
@@ -126,7 +144,7 @@
                     <i class="fas fa-fw fa-user"></i>
                     <span>Profile</span></a>
             </li>
-            
+
             <!-- Nav Item - Data Service -->
             <li class="nav-item {{request()->is('admin/ubah/password') ? ' active' : ''}}">
                 <a class="nav-link" href="{{ route('ubahPasswordAdmin') }}">
@@ -171,15 +189,12 @@
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->name }}</span>
-                                <img class="img-profile rounded-circle"
-                                    src="{{ asset('/sbadmin/img/undraw_profile.svg') }}">
+                                <img class="img-profile rounded-circle" src="{{ asset('/sbadmin/img/undraw_profile.svg') }}">
                             </a>
                             <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="userDropdown">
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="{{ route('profileAdmin') }}">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
@@ -228,8 +243,7 @@
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -265,10 +279,10 @@
     <script src="{{ asset('/sbadmin/js/demo/chart-pie-demo.js') }}"></script>
 
     <script>
-		$(function () {
-			$('[data="tooltip"]').tooltip();
-		});
-	</script>
+        $(function() {
+            $('[data="tooltip"]').tooltip();
+        });
+    </script>
 
     @yield('js')
 </body>

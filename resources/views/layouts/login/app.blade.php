@@ -74,7 +74,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="{{ route('profileUser') }}"><i class="fa-solid fa-user mr-2"></i>Profile</a>
-                                <a class="dropdown-item" href="{{ route('profileUser') }}"><i class="fa-solid fa-wallet mr-2"></i>Transaksi Selesai</a>
+                                <a class="dropdown-item" href="{{ route('CompTrans') }}"><i class="fa-solid fa-wallet mr-2"></i>Transaksi Selesai</a>
                                 <a class="dropdown-item" href="{{ route('motor') }}"><i class="fas fa-motorcycle mr-2"></i>Motor</a>
                                 <a class="dropdown-item" href="{{ route('ubahPassword') }}"><i class="fa-solid fa-lock mr-2"></i>Ubah Password</a>
                                 <a class="dropdown-item" href="" data-toggle="modal" data-target="#logout"><i class="fa-solid fa-right-from-bracket mr-2"></i>Logout</a>
@@ -182,5 +182,7 @@
 			$('[data="tooltip"]').tooltip();
 		});
 	</script>
+
+    @yield('js')
   </body>
 </html>

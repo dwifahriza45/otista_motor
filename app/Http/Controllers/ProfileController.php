@@ -42,13 +42,16 @@ class ProfileController extends Controller
 
         $messages = [
             'required' => ':attribute wajib diisi!!!',
+            'numeric' => ':attribute harus berupa angka!!!',
         ];
 
         $request->validate([
             'name' => 'required',
+            'no_hp' => ['required', 'numeric'],
         ], $messages);
 
         $user->name = $request->input('name');
+        $user->no_hp = $request->input('no_hp');
 
         $user->save();
 

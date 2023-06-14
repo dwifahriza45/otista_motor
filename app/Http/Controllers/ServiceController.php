@@ -43,10 +43,14 @@ class ServiceController extends Controller
             'user_id' => ['required'],
             'motor_id' => ['required'],
             'kilometer' => ['required'],
+            'sparepart1' => ['required'],
+            'sparepart2' => [],
+            'sparepart3' => [],
             'keluhan' => ['required'],
         ], $messages);
 
         $validateData['in_process'] = Carbon::now()->format('Y-m-d H:i:s');
+        $validateData['wait_admin'] = Carbon::now()->format('Y-m-d H:i:s');
         
         Service::create($validateData);
 
@@ -55,6 +59,7 @@ class ServiceController extends Controller
 
     public function approve_admin($id)
     {
+        $validateData['admin_id'] = Auth::id();
         $validateData['wait_admin'] = Carbon::now()->format('Y-m-d H:i:s');
         $validateData['approve_admin'] = Carbon::now()->format('Y-m-d H:i:s');
         Service::where('id', $id)->update($validateData);
@@ -71,9 +76,11 @@ class ServiceController extends Controller
             'reason_reject_admin' => 'required',
         ], $messages);
 
-        $validateData['wait_admin'] = Carbon::now()->format('Y-m-d H:i:s');
+        $validateData['admin_id'] = Auth::id();
+        $validateData['in_process'] = null;
+        $validateData['wait_admin'] = null;
         $validateData['reject_admin'] = Carbon::now()->format('Y-m-d H:i:s');
         Service::where('id', $id)->update($validateData);
-        return redirect()->route('service')->with('reject', 'Berhasil menolak reservasi');
+        return redirect()->route('service')->with('status', 'Berhasil menolak reservasi');
     }
 }

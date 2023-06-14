@@ -70,6 +70,16 @@
                             </div>
 
                             <div class="form-group">
+                                <label for="no_hp">No HP</label>
+                                <input type="number" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" autocomplete="no_hp" autofocus placeholder="08XX - XXXX - XXXX" @if (!is_null($user->no_hp)) ? value="{{ $user->no_hp }}" @else value="{{ old('no_hp') }}" @endif>
+                                @error('no_hp')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
                                 <label for="email">Email address</label>
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" autocomplete="email" placeholder="example@email.com" disabled>
                                 @error('email')

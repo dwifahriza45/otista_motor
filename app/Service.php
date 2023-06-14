@@ -27,4 +27,19 @@ class Service extends Model
     {
         return $this->hasOne(Motor::class, 'id', 'motor_id');
     }
+
+    public function this_sparepart1()
+    {
+        return $this->hasOne(Sparepart::class, 'id', 'sparepart1');
+    }
+
+    public function this_sparepart2()
+    {
+        return $this->hasOne(Sparepart::class, 'id', 'sparepart2');
+    }
+
+    public function this_sparepart3()
+    {
+        return $this->hasOne(Sparepart::class, 'id', 'sparepart3');
+    }
 }

@@ -24,9 +24,9 @@ class AdminController extends Controller
 
     public function service()
     {
-        $service = Service::All();
-        $sparepart = Sparepart::All();
-        return view('admin/dataService', compact('service'), compact('sparepart'));
+        $service = Service::whereNotNull('in_process')->get();
+        // dd($service);
+        return view('admin/dataService', compact('service'));
     }
 
     public function pelanggan()

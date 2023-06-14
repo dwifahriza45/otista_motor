@@ -13,6 +13,8 @@
 
     <a href="" class="btn btn-outline-danger mb-2"><i class="fas fa-print"></i> Cetak Data Sparepart</a>
 
+    <input id="myInput" type="search" placeholder="Search" aria-label="Search">
+
     @if (session('status'))
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         {{ session('status') }}
@@ -39,13 +41,13 @@
                 <th scope="col">Pelanggan</th>
                 <th scope="col">Motor</th>
                 <th scope="col">Kilometer</th>
-                <th scope="col">Keluhan / Keterangan</th>
+                <th scope="col">Keterangan</th>
                 <th scope="col">Sparepart</th>
-                <th scope="col">Total Harga</th>
+                <th scope="col">Input Jadwal</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
             @php $i = 1; @endphp
             @foreach ($service as $s)
             <tr>
@@ -129,48 +131,96 @@
                     </div>
                 </td>
                 <td>{{ $s->kilometer }} km</td>
-                <td>{{ $s->keluhan }}</td>
                 <td>
-                    <div class="row">
-                        <div class="col-10">
-                            <select class="form-control @error('sparepart1') is-invalid @enderror mb-2" id="sparepart1" name="sparepart1">
-                                <option value="">--Pilih--</option>
-                                @foreach ($sparepart as $sp)
-                                <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-2">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-10">
-                            <select class="form-control @error('sparepart2') is-invalid @enderror mb-2 sparepart-select" id="sparepart2" name="sparepart2">
-                                <option value="">--Pilih--</option>
-                                @foreach ($sparepart as $sp)
-                                <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <a href="" class="sparepart-select" id="close2"><i class="fas fa-times"></i></a>
+                    <p style="margin-bottom: -0.5px;" class="text-wrap">
+                        <a href="" data-toggle="modal" data-target="#ket{{ $s->id }}">{{ \Illuminate\Support\Str::limit($s->keluhan, 10, $end='...') }}</a>
+
+                        <!-- Modal -->
+                    <div class="modal fade" id="ket{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Keterangan</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    {{ $s->keluhan }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-10">
-                            <select class="form-control @error('sparepart3') is-invalid @enderror mb-2 sparepart-select" id="sparepart3" name="sparepart3">
-                                <option value="">--Pilih--</option>
-                                @foreach ($sparepart as $sp)
-                                <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-2">
-                            <a href="" class="sparepart-select" id="close3"><i class="fas fa-times"></i></a>
+                    </p>
+                </td>
+                <td>
+                    <a href="" data-toggle="modal" data-target="#detailSparepart{{ $s->id }}">Detail</a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="detailSparepart{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Detail Sparepart</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->this_sparepart1->sparepart }} - @currency($s->this_sparepart1->harga)</p>
+
+                                    @if ($s->sparepart2 != null)
+                                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->this_sparepart2->sparepart }} - @currency($s->this_sparepart2->harga)</p>
+                                    @endif
+
+                                    @if ($s->sparepart3 != null)
+                                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->this_sparepart3->sparepart }} - @currency($s->this_sparepart3->harga)</p>
+                                    @endif
+                                    <hr>
+                                    <form action="" method="POST">
+                                        <div class="form-group">
+                                            <label for="harga_jasa">Harga Jasa</label>
+                                            <input type="number" class="form-control" id="harga_jasa" placeholder="Masukkan harga jasa . . .">
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success" data-dismiss="modal">Input</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </td>
-                <td>Rp. 30.000</td>
+                <td>
+                    <a href="" data-toggle="modal" data-target="#jadwal{{ $s->id }}">Jadwalkan</a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="jadwal{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Input Jadwal</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        <input type="datetime-local">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-success">Jadwalkan</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
                 <td>
                     @if ($s->approve_admin == null && $s->reject_admin == null)
                     <a href="" class="btn btn-success mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Terima" data-target="#terima{{ $s->id }}"><i class="fas fa-check"></i></a>
@@ -179,19 +229,19 @@
                     <div class="modal fade" id="terima{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Terima Reservasi {{ $s->this_user->name }}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Yakin ingin menerima reservasi {{ $s->this_user->name }}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <a href="{{ route('approve_admin', $s->id) }}" class="btn btn-success">Terima</a>
-                            </div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Terima Reservasi {{ $s->this_user->name }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Yakin ingin menerima reservasi {{ $s->this_user->name }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a href="{{ route('approve_admin', $s->id) }}" class="btn btn-success">Terima</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -202,23 +252,23 @@
                     <div class="modal fade" id="tolak{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Tolak Reservasi {{ $s->this_user->name }}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="/admin/service/{{ $s->id }}" method="POST">
-                                @csrf
-                                <p for="reason_reject_admin" style="margin-bottom: -0.5px;" class="font-weight-bold">Alasan Penolakan</p>
-                                <textarea cols="15" rows="5" class="form-control @error('reason_reject_admin') is-invalid @enderror" name="reason_reject_admin" id="reason_reject_admin" placeholder="Berikan alasan penolakan kepada pelanggan . . ."></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-danger">Tolak</button>
-                                </form>
-                            </div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Tolak Reservasi {{ $s->this_user->name }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/admin/service/reject/{{ $s->id }}" method="POST">
+                                        @csrf
+                                        <p for="reason_reject_admin" style="margin-bottom: -0.5px;" class="font-weight-bold">Alasan Penolakan</p>
+                                        <textarea cols="15" rows="5" class="form-control @error('reason_reject_admin') is-invalid @enderror" name="reason_reject_admin" id="reason_reject_admin" placeholder="Berikan alasan penolakan kepada pelanggan . . ."></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Tolak</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -235,19 +285,19 @@
                     <div class="modal fade" id="reason_reject{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Reservasi {{ $s->this_user->name }}</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <p style="margin-bottom: -0.5px;" class="font-weight-bold">Alasan Penolakan</p>
-                                <p style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->reason_reject_admin }}</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            </div>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Reservasi {{ $s->this_user->name }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p style="margin-bottom: -0.5px;" class="font-weight-bold">Alasan Penolakan</p>
+                                    <p style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->reason_reject_admin }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -260,36 +310,4 @@
 
 </div>
 <!-- /.container-fluid -->
-@endsection
-
-@section('js')
-<script>
-    const sparepartSelects = Array.from(document.getElementsByClassName("sparepart-select"));
-    const close2 = document.getElementById("close2");
-    const close3 = document.getElementById("close3");
-
-    sparepartSelects.forEach((sp, index) => {
-        const sparepart = document.getElementById(`sparepart${index + 1}`);
-
-        sp.style.display = "none"; // Move this line inside the loop
-
-        sparepart.addEventListener("change", function() {
-            const nextSparepart = document.getElementById(`sparepart${index + 2}`);
-            const nextClose = index === 1 ? close3 : close2;
-
-            nextSparepart.style.display = "";
-            nextClose.style.display = "";
-        });
-
-        const close = index === 1 ? close2 : close3;
-
-        close.addEventListener("click", function() {
-            const nextSparepart = document.getElementById(`sparepart${index + 2}`);
-            const nextClose = index === 1 ? close3 : close2;
-
-            nextSparepart.style.display = "none";
-            nextClose.style.display = "none";
-        });
-    });
-</script>
 @endsection

@@ -33,3 +33,7 @@
     margin-top: 125px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
 }
+
+.hide {
+    display: none;
+}

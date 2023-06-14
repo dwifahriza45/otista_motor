@@ -168,5 +168,7 @@
 			$('[data="tooltip"]').tooltip();
 		});
 	</script>
+    
+    @yield('js')
   </body>
 </html>

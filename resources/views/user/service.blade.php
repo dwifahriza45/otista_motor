@@ -55,20 +55,47 @@
                                 <input type="number" class="form-control @error('kilometer') is-invalid @enderror" id="kilometer" name="kilometer" placeholder="Masukkan km motor . . ." value="{{ old('kilometer') }}" autofocus>
 
                                 @error('kilometer')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                             <div class="col-md-6">
+                                <p for="sparepart1" style="margin-bottom: -0.5px;" class="font-weight-bold">Sparepart</p>
+                                <select class="form-control @error('sparepart1') is-invalid @enderror mb-2" id="sparepart1" name="sparepart1">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($sparepart as $sp)
+                                    <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 sp">
+                                <p for="sparepart2" style="margin-bottom: -0.5px;" class="font-weight-bold">Sparepart 2</p>
+                                <select class="form-control @error('sparepart2') is-invalid @enderror mb-2" id="sparepart2" name="sparepart2">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($sparepart as $sp)
+                                    <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 null" id="null">
+                            </div>
+                            <div class="col-md-6 sp">
+                                <p for="sparepart3" style="margin-bottom: -0.5px;" class="font-weight-bold">Sparepart 3</p>
+                                <select class="form-control @error('sparepart3') is-invalid @enderror mb-2" id="sparepart3" name="sparepart3">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($sparepart as $sp)
+                                    <option value="{{ $sp->id }}">{{ $sp->sparepart }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <p for="keluhan" style="margin-bottom: -0.5px;" class="font-weight-bold">Keterangan</p>
                                 <textarea cols="15" rows="10" class="form-control @error('keluhan') is-invalid @enderror" name="keluhan" id="keluhan" placeholder="Ganti Oli (Top One), kampas rem, dll . . ."></textarea>
                                 @error('keluhan')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                             <div class="col-md-12 mt-3">
@@ -82,7 +109,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Gagal Reservasi</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
@@ -104,7 +131,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Reservasi</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
@@ -127,7 +154,7 @@
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Gagal Pemesanan Service</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
                                             </div>
                                             <div class="modal-body">
@@ -163,7 +190,6 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Sparepart</th>
-                                <th scope="col">Merk</th>
                                 <th scope="col">Stok</th>
                             </tr>
                         </thead>
@@ -173,7 +199,6 @@
                             <tr>
                                 <th scope="row">{{ $i++ }}</th>
                                 <td>{{ $s->sparepart }}</td>
-                                <td>merk</td>
                                 <td>Tersedia</td>
                             </tr>
                             @endforeach
@@ -184,4 +209,30 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('js')
+<script>
+    var spareparts = document.getElementsByClassName('sp');
+    var sparepart1 = document.getElementById('sparepart1');
+    var sparepart2 = document.getElementById('sparepart2');
+    
+    var zero = document.getElementById('null');
+
+    zero.classList.add('hide');
+
+    for (var i = 0; i < spareparts.length; i++) {
+        spareparts[i].classList.add('hide');
+    }
+
+    sparepart1.addEventListener("change", function() {
+        spareparts[0].classList.remove('hide');
+        zero.classList.remove('hide');
+    });
+
+    sparepart2.addEventListener("change", function() {
+        spareparts[1].classList.remove('hide');
+        zero.classList.add('hide');
+    });
+</script>
 @endsection
