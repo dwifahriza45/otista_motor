@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,21 +26,25 @@ class AdminController extends Controller
     public function service()
     {
         $service = Service::whereNotNull('in_process')->get();
-        // dd($service);
         return view('admin/dataService', compact('service'));
     }
 
     public function pelanggan()
     {
-        return view('admin/dataPelanggan');
+        $trans = Service::select('user_id', 'admin_id', 'motor_id')
+            ->whereNotNull('done')
+            ->orderBy('done', 'desc')
+            ->distinct()
+            ->get();
+        return view('admin/dataPelanggan', compact('trans'));
     }
 
     public function dataAdmin()
     {
         $user = User::find(Auth::user()->id);
         $admin = DB::table('users')
-                ->where('role_id', 1)
-                ->get();
+            ->where('role_id', 1)
+            ->get();
 
         return view('admin/dataAdmin', compact('user', 'admin'));
     }

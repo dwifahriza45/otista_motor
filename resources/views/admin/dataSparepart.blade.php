@@ -27,7 +27,6 @@
         <thead class="bg-danger text-light">
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Gambar</th>
                 <th scope="col">Sparepart</th>
                 <th scope="col">Stok</th>
                 <th scope="col">Harga</th>
@@ -39,7 +38,6 @@
             @foreach ($sparepart as $s)
             <tr>
                 <th scope="row">{{ $i++ }}</th>
-                <td>Otto</td>
                 <td>{{ $s->sparepart }}</td>
                 <td>{{ $s->stok }}</td>
                 <td>@currency($s->harga)</td>

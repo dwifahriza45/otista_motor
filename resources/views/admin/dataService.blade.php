@@ -43,6 +43,7 @@
                 <th scope="col">Kilometer</th>
                 <th scope="col">Keterangan</th>
                 <th scope="col">Sparepart</th>
+                <th scope="col">Total Harga</th>
                 <th scope="col">Input Jadwal</th>
                 <th scope="col">Aksi</th>
             </tr>
@@ -180,15 +181,20 @@
                                     <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $s->this_sparepart3->sparepart }} - @currency($s->this_sparepart3->harga)</p>
                                     @endif
                                     <hr>
-                                    <form action="" method="POST">
+                                    @if ($s->harga_jasa == null)
+                                    <form action="/admin/service/input/harga/{{ $s->id }}" method="POST">
+                                        @csrf
                                         <div class="form-group">
                                             <label for="harga_jasa">Harga Jasa</label>
-                                            <input type="number" class="form-control" id="harga_jasa" placeholder="Masukkan harga jasa . . .">
+                                            <input type="number" class="form-control" id="harga_jasa" name="harga_jasa" placeholder="Masukkan harga jasa . . .">
                                         </div>
+                                        @else
+                                        <p class="text-wrap">Harga jasa @currency($s->harga_jasa)</p>
+                                        @endif
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-success" data-dismiss="modal">Input</button>
+                                    <button type="submit" class="btn btn-success">Input</button>
                                     </form>
                                 </div>
                             </div>
@@ -196,6 +202,19 @@
                     </div>
                 </td>
                 <td>
+                    @if ($s->sparepart1 != null && $s->sparepart2 == null)
+                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($s->this_sparepart1->harga + $s->harga_jasa)</p>
+                    @endif
+
+                    @if ($s->sparepart2 != null && $s->sparepart3 == null)
+                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($s->this_sparepart1->harga + $s->this_sparepart2->harga + $s->harga_jasa)</p>
+                    @endif
+                    @if ($s->sparepart3 != null)
+                    <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($s->this_sparepart1->harga + $s->this_sparepart2->harga + $s->this_sparepart3->harga + $s->harga_jasa)</p>
+                    @endif
+                </td>
+                <td>
+                    @if ($s->jadwal == null)
                     <a href="" data-toggle="modal" data-target="#jadwal{{ $s->id }}">Jadwalkan</a>
 
                     <!-- Modal -->
@@ -209,8 +228,9 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="" method="POST">
-                                        <input type="datetime-local">
+                                    <form action="/admin/service/input/jadwal/{{ $s->id }}" method="POST">
+                                        @csrf
+                                        <input type="datetime-local" name="jadwal">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -220,11 +240,20 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <p>
+                        <?php
+                        $date = Carbon\Carbon::parse($s->jadwal);
+                        $formattedDate = $date->translatedFormat('d F Y H:i:s');
+                        echo $formattedDate;
+                        ?>
+                    </p>
+                    @endif
                 </td>
                 <td>
                     @if ($s->approve_admin == null && $s->reject_admin == null)
+                    @if ($s->jadwal != null && $s->harga_jasa != null)
                     <a href="" class="btn btn-success mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Terima" data-target="#terima{{ $s->id }}"><i class="fas fa-check"></i></a>
-
                     <!-- Modal -->
                     <div class="modal fade" id="terima{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -245,7 +274,31 @@
                             </div>
                         </div>
                     </div>
+                    @else
+                    <a href="" class="btn btn-success mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Terima" data-target="#terimaNo{{ $s->id }}"><i class="fas fa-check"></i></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="terimaNo{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Mohon input harga jasa dan jadwal terlebih dahulu
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                    @endif
 
+                    @if ($s->approve_admin == null && $s->reject_admin == null)
                     <a href="" class="btn btn-danger mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Tolak" data-target="#tolak{{ $s->id }}"><i class="fas fa-times"></i></a>
 
                     <!-- Modal -->
@@ -274,8 +327,32 @@
                     </div>
                     @endif
 
-                    @if ($s->approve_admin != null && $s->reject_admin == null)
+                    @if ($s->approve_admin != null && $s->confirm_user == null)
                     <p style="margin-bottom: -0.5px;" class="text-wrap">Menunggu Konfirmasi Pelanggan</p>
+                    @endif
+
+                    @if ($s->confirm_user != null && $s->queue == null)
+                    <a href="" class="btn btn-success" data-toggle="modal" data-target="#queue{{ $s->id }}" data="tooltip" data-placement="top" title="Masukkan ke dalam Antrian"><i class="fas fa-undo-alt"></i></a>
+
+                    <div class="modal fade" id="queue{{ $s->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Konfirmasi</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Yakin ingin menginputkan motor {{ $s->this_bike_nama_motor }} ke dalam antrian?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <a href="{{ route('inputQueue', $s->id) }}" class="btn btn-success">Konfirmasi</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endif
 
                     @if ($s->approve_admin == null && $s->reject_admin != null)

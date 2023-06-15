@@ -25,8 +25,9 @@ class ServiceController extends Controller
             ->whereNotNull('in_process')
             ->count();
 
-        return view('user/service', compact('motor', 'sparepart'))
-            ->with('cekService', $cekService);
+        $cekAntrian = Service::whereNotNull('queue')->count();
+
+        return view('user/service', compact('motor', 'sparepart', 'cekService', 'cekAntrian'));
     }
 
     public function createService(Request $request)
@@ -51,10 +52,26 @@ class ServiceController extends Controller
 
         $validateData['in_process'] = Carbon::now()->format('Y-m-d H:i:s');
         $validateData['wait_admin'] = Carbon::now()->format('Y-m-d H:i:s');
-        
+
         Service::create($validateData);
 
         return redirect()->route('serviceUser')->with('status', 'Berhasil melakukan reservasi service motor');
+    }
+
+    public function hargaJasa(Request $request, $id)
+    {
+        $messages = [
+            'required' => ':attribute wajib diisi!!!',
+            'numeric' => ':attribute harus berupa angka!!!',
+        ];
+
+        $validateData = $request->validate([
+            'harga_jasa' => ['required', 'numeric']
+        ], $messages);
+
+        Service::where('id', $id)->update($validateData);
+
+        return redirect()->route('service')->with('status', 'Berhasil menginputkan harga jasa');
     }
 
     public function approve_admin($id)
@@ -66,12 +83,30 @@ class ServiceController extends Controller
         return redirect()->route('service')->with('status', 'Berhasil terima reservasi');
     }
 
+    public function jadwalkan(Request $request, $id)
+    {
+        $messages = [
+            'required' => ':attribute wajib diisi!!!',
+            'numeric' => ':attribute harus berupa angka!!!',
+        ];
+
+        $validateData = $request->validate([
+            'jadwal' => ['required']
+        ], $messages);
+
+        // dd($validateData);
+
+        Service::where('id', $id)->update($validateData);
+
+        return redirect()->route('service')->with('status', 'Berhasil menginputkan jadwal');
+    }
+
     public function reject_admin(Request $request, $id)
     {
         $messages = [
             'required' => ':attribute wajib diisi!!!',
         ];
-        
+
         $validateData = $request->validate([
             'reason_reject_admin' => 'required',
         ], $messages);
@@ -79,8 +114,41 @@ class ServiceController extends Controller
         $validateData['admin_id'] = Auth::id();
         $validateData['in_process'] = null;
         $validateData['wait_admin'] = null;
+        $validateData['done'] = Carbon::now()->format('Y-m-d H:i:s');
         $validateData['reject_admin'] = Carbon::now()->format('Y-m-d H:i:s');
         Service::where('id', $id)->update($validateData);
         return redirect()->route('service')->with('status', 'Berhasil menolak reservasi');
+    }
+
+    public function penyerahanMotor($id)
+    {
+        $validateData['confirm_user'] = Carbon::now()->format('Y-m-d H:i:s');
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('notifikasi')->with('status', 'Berhasil melakukan penyerahan motor!');
+    }
+
+    public function inputQueue($id)
+    {
+        $validateData['queue'] = Carbon::now()->format('Y-m-d H:i:s');
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('service')->with('status', 'Berhasil menginputkan motor kedalam antrian!');
+    }
+
+    public function batal_user(Request $request, $id)
+    {
+        $messages = [
+            'required' => ':attribute wajib diisi!!!',
+        ];
+
+        $validateData = $request->validate([
+            'reason_reject_user' => 'required',
+        ], $messages);
+
+        $validateData['in_process'] = null;
+        $validateData['done'] = Carbon::now()->format('Y-m-d H:i:s');
+        $validateData['reject_user'] = Carbon::now()->format('Y-m-d H:i:s');
+
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('notifikasi')->with('status', 'Berhasil membatalkan reservasi');
     }
 }

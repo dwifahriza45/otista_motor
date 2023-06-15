@@ -39,6 +39,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:2']], function () {
     Route::get('/service', 'ServiceController@index')->name('serviceUser');
     Route::post('/service', 'ServiceController@createService')->name('createService');
 
+    Route::post('/service/batal/{id}', 'ServiceController@batal_user')->name('batal_user');
+    Route::get('/service/motor/{id}', 'ServiceController@penyerahanMotor')->name('penyerahanMotor');
+
     Route::get('/notifikasi', 'NotifikasiController@index')->name('notifikasi');
 
     Route::get('/profile', 'ProfileController@index')->name('profileUser');
@@ -75,6 +78,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
     Route::get('/admin/service', 'AdminController@service')->name('service');
     Route::get('/admin/service/{id}', 'ServiceController@approve_admin')->name('approve_admin');
     Route::post('/admin/service/reject/{id}', 'ServiceController@reject_admin')->name('reject_admin');
+    Route::post('/admin/service/input/harga/{id}', 'ServiceController@hargaJasa')->name('inputHargaJasa');
+    Route::post('/admin/service/input/jadwal/{id}', 'ServiceController@jadwalkan')->name('inputJadwal');
+    Route::get('/admin/service/queue/{id}', 'ServiceController@inputQueue')->name('inputQueue');
 
     Route::get('/admin/pelanggan', 'AdminController@pelanggan')->name('pelanggan');
 

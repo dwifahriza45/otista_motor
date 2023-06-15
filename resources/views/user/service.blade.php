@@ -178,7 +178,7 @@
             <div class="card">
                 <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Antrian') }}</b></div>
                 <div class="card-body">
-                    <h1 class="text-center font-weight-bold">5</h1>
+                    <h1 class="text-center font-weight-bold">{{ $cekAntrian }}</h1>
                 </div>
             </div>
 

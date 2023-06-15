@@ -23,8 +23,15 @@ class CreateServicesTable extends Migration
             $table->unsignedBigInteger('sparepart3')->nullable();
             $table->timestamp("in_process")->nullable();
             $table->timestamp("wait_admin")->nullable();
+            $table->integer('harga_jasa')->nullable();
             $table->timestamp("approve_admin")->nullable();
+            $table->timestamp("jadwal")->nullable();
+            $table->timestamp("confirm_user")->nullable();
+            $table->timestamp("queue")->nullable();
+            $table->timestamp("repair")->nullable();
+            $table->timestamp("repair_done")->nullable();
             $table->timestamp("reject_admin")->nullable();
+            $table->timestamp("reject_user")->nullable();
             $table->text('reason_reject_admin')->nullable();
             $table->text('reason_reject_user')->nullable();
             $table->timestamp("done")->nullable();
