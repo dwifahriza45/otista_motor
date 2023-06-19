@@ -32,6 +32,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login/admin', 'LoginController@postLogin')->name('loginAdmin');
 });
 
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/unduh/kwitansi/{id}', 'UnduhKwitansiController@index')->name('unduhKwitansi');
+});
+
 Route::group(['middleware' => ['auth', 'ceklevel:2']], function () {
     //User
     Route::get('/home', 'HomeController@index')->name('homeUser');
@@ -81,6 +85,9 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
     Route::post('/admin/service/input/harga/{id}', 'ServiceController@hargaJasa')->name('inputHargaJasa');
     Route::post('/admin/service/input/jadwal/{id}', 'ServiceController@jadwalkan')->name('inputJadwal');
     Route::get('/admin/service/queue/{id}', 'ServiceController@inputQueue')->name('inputQueue');
+    Route::get('/admin/service/repair/{id}', 'ServiceController@inputRepair')->name('inputRepair');
+    Route::get('/admin/service/repair/done/{id}', 'ServiceController@inputRepairDone')->name('inputRepairDone');
+    Route::get('/admin/service/repair/done/transaksi/{id}', 'ServiceController@inputDone')->name('inputDone');
 
     Route::get('/admin/pelanggan', 'AdminController@pelanggan')->name('pelanggan');
 
@@ -96,4 +103,10 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
     Route::post('/admin/ubah/password', 'UbahPasswordController@changePassword')->name('ubahPasswordAdmin');
 
     Route::get('/admin/transaksi/selesai', 'CompleteTransController@transAdmin')->name('CompTransAdmin');
+
+    Route::get('/unduh/sparepart', 'UnduhKwitansiController@unduhSparepart')->name('unduhSparepart');
+    Route::get('/unduh/service', 'UnduhKwitansiController@unduhDataService')->name('unduhDataService');
+    Route::get('/unduh/transaksi', 'UnduhKwitansiController@unduhDataTransaksiSelesai')->name('unduhDataTransaksiSelesai');
+    Route::get('/unduh/pelanggan', 'UnduhKwitansiController@unduhDataPelanggan')->name('unduhDataPelanggan');
+    Route::get('/unduh/admin', 'UnduhKwitansiController@unduhDataAdmin')->name('unduhDataAdmin');
 });

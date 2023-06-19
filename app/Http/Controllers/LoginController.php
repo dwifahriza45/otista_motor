@@ -29,7 +29,7 @@ class LoginController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             if ($user->role_id == 2) {
-                return redirect()->intended('/home');
+                return redirect()->intended('/service');
             } else {
                 Auth::logout();
                 return redirect()->route('login')->with('fail', 'Gagal Login');

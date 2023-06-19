@@ -17,7 +17,6 @@ class CompleteTransController extends Controller
 
     public function transAdmin()
     {
-        $userId = Auth::id();
         $transaksi = Service::whereNull('in_process')->get();
         return view('admin/transaksi/complete', compact('transaksi'));
     }

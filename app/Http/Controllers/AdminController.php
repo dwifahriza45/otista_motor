@@ -14,7 +14,29 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin/dashboard');
+        $countAdmin = User::where('role_id', 1)
+            ->count();
+        $countPelanggan = User::where('role_id', 2)
+            ->count();
+        $countQueu = Service::where('repair', null)->whereNotNull('queue')->count();
+
+        $countRepair = Service::whereNotNull('repair')->whereNull('repair_done')->count();
+
+        $countRepairDone = Service::whereNotNull('repair_done')->count();
+
+        $totalReservasi = Service::count();
+
+        $service = Service::whereNotNull('in_process')->get();
+
+        $countService = Service::whereNotNull('in_process')->count();
+
+        $reservasiTolak = Service::whereNull('approve_admin')->whereNotNull('reject_admin')->count();
+
+        $reservasiBatal = Service::whereNull('in_process')->whereNotNull('reject_user')->count();
+
+        $reservasiSelesai = Service::whereNotNull('repair_done')->whereNotNull('done')->count();
+
+        return view('admin/dashboard', compact('countAdmin', 'countPelanggan', 'countQueu', 'service', 'reservasiTolak', 'reservasiBatal', 'reservasiSelesai', 'countRepair', 'countRepairDone', 'totalReservasi', 'countService'));
     }
 
     public function sparepart()

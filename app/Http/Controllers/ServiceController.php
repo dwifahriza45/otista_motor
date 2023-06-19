@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Service;
+use App\Sparepart;
 use Carbon\Carbon;
 
 class ServiceController extends Controller
@@ -25,9 +26,11 @@ class ServiceController extends Controller
             ->whereNotNull('in_process')
             ->count();
 
-        $cekAntrian = Service::whereNotNull('queue')->count();
+        $cekAntrian = Service::where('repair', null)->whereNotNull('queue')->count();
+        
+        $cekSparepart = Sparepart::where('active', 1)->count();
 
-        return view('user/service', compact('motor', 'sparepart', 'cekService', 'cekAntrian'));
+        return view('user/service', compact('motor', 'sparepart', 'cekService', 'cekAntrian', 'cekSparepart'));
     }
 
     public function createService(Request $request)
@@ -132,6 +135,25 @@ class ServiceController extends Controller
         $validateData['queue'] = Carbon::now()->format('Y-m-d H:i:s');
         Service::where('id', $id)->update($validateData);
         return redirect()->route('service')->with('status', 'Berhasil menginputkan motor kedalam antrian!');
+    }
+
+    public function inputRepair($id)  {
+        $validateData['repair'] = Carbon::now()->format('Y-m-d H:i:s');
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor kedalam perbaikan!');
+    }
+
+    public function inputRepairDone($id)  {
+        $validateData['repair_done'] = Carbon::now()->format('Y-m-d H:i:s');
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
+    }
+
+    public function inputDone($id)  {
+        $validateData['done'] = Carbon::now()->format('Y-m-d H:i:s');
+        $validateData['in_process'] = null;
+        Service::where('id', $id)->update($validateData);
+        return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
     }
 
     public function batal_user(Request $request, $id)

@@ -74,7 +74,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn text-light btn-block" style="background-color: #78221c">
-                                    {{ __('Ubah Password') }}
+                                    {{ __('Ubah') }}
                                 </button>
                             </div>
                         </div>

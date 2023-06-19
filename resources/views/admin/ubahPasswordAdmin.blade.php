@@ -58,7 +58,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="password_confirmation">Nama Lengkap</label>
+                                <label for="password_confirmation">Konfirmasi Password</label>
                                 <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" autocomplete="password_confirmation" autofocus placeholder="********">
                                 @error('password_confirmation')
                                     <span class="invalid-feedback" role="alert">

@@ -35,6 +35,9 @@
     <link href="{{ asset('/sbadmin/css/sb-admin-2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('/css/tooltips.css') }}" rel="stylesheet">
 
+    <!-- DataTable -->
+    <link rel="stylesheet" href="https://silat.bekasikota.go.id/silat_v2/sip/assets/DataTables/media/css/jquery.dataTables.css">
+
 </head>
 
 <body id="page-top">
@@ -282,7 +285,14 @@
         $(function() {
             $('[data="tooltip"]').tooltip();
         });
+        
+        $(document).ready(function() {
+            $('table.display').DataTable();
+        });
     </script>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://silat.bekasikota.go.id/silat_v2/sip/assets/DataTables/media/js/jquery.dataTables.js"></script>
 
     @yield('js')
 </body>

@@ -1,0 +1,80 @@
+<link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+<title>Cetak Data Sparepart</title>
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 30px auto;
+    }
+
+    th,
+    td {
+        padding: 6px 0;
+    }
+
+    th {
+        text-align: left;
+        padding-left: 4px;
+        background-color: #F1F1F1;
+    }
+
+    td {
+        padding-left: 4px;
+        padding-right: 86px;
+    }
+
+    .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    @media print {
+        .button {
+            display: none;
+        }
+    }
+</style>
+
+<h1 style="text-align: center;">OTISTA MOTOR</h1>
+<h2 style="text-align: center;">Jl. Otto Iskandardinata No.80, Nanggeleng, Kec. Citamiang, Kota Sukabumi, Jawa Barat 43143</h2>
+<hr style="border-top: 3px solid black; width: 80%;"">
+
+    <table>
+        <caption style=" text-align: center; margin-bottom: 10px;">Data Sparepart</b></caption>
+
+        <tr>
+            <th colspan=" 2" style="width: 300px;">Sparepart</th>
+            <th style="width: 200px;">Stok</th>
+            <th style="width: 200px;">Harga</th>
+        </tr>
+        @foreach ($unduh as $u)
+        <tr>
+            <td colspan="2">{{ $u->sparepart }}</td>
+            <td>{{ $u->stok }}</td>
+            <td>@currency($u->harga)</td>
+        </tr>
+        @endforeach
+    </table>
+
+<div class="button">
+    <button style="background-color: blue; color: white;" onclick="printDocument()">Cetak</button>
+</div>
+
+<script>
+    window.print();
+
+    function printDocument() {
+        window.print();
+    }
+</script>

@@ -51,7 +51,7 @@
                         </div>
                         <div class="row justify-content-around mt-3">
                             <div class="col-md-6">
-                                <p for="kilometer" style="margin-bottom: -0.5px;" class="font-weight-bold">Kilometer</p>
+                                <p for="kilometer" style="margin-bottom: -0.5px;" class="font-weight-bold">Meter</p>
                                 <input type="number" class="form-control @error('kilometer') is-invalid @enderror" id="kilometer" name="kilometer" placeholder="Masukkan km motor . . ." value="{{ old('kilometer') }}" autofocus>
 
                                 @error('kilometer')
@@ -176,7 +176,7 @@
 
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Antrian') }}</b></div>
+                <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Antrian saat ini') }}</b></div>
                 <div class="card-body">
                     <h1 class="text-center font-weight-bold">{{ $cekAntrian }}</h1>
                 </div>
@@ -185,6 +185,7 @@
             <div class="card mt-4">
                 <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Sparepart Tersedia') }}</b></div>
                 <div class="card-body" style="overflow-y: auto; max-height: 356px;">
+                    @if ($cekSparepart > 0)
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -204,6 +205,9 @@
                             @endforeach
                         </tbody>
                     </table>
+                    @else
+                    <p class="text-center" style="height: 100px; margin-top: 100px;">Sparepart Kosong</p>
+                    @endif
                 </div>
             </div>
         </div>

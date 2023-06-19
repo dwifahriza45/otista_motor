@@ -4,19 +4,20 @@
 
 @section('content')
 <div class="container mt-4">
+
+    @if (session('status'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
+    
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header text-white text-center" style="background-color: #78221c"><b>{{ __('Notifikasi Service') }}</b></div>
-
-                @if (session('status'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                @endif
 
                 @foreach ($notif as $n)
                 <div class="card-body">
@@ -82,7 +83,7 @@
                         </div>
                         <div class="col-md-6 mt-3">
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Sparepart</p>
-                            <a href="" data-toggle="modal" data-target="#detailSparepart{{ $n->id }}">Detail</a>
+                            <a href="" data-toggle="modal" data-target="#detailSparepart{{ $n->id }}">Detail Harga</a>
 
                             <!-- Modal -->
                             <div class="modal fade" id="detailSparepart{{ $n->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -95,18 +96,17 @@
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart1->sparepart }}</p>
+                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart1->sparepart }} - @currency($n->this_sparepart1->harga)</p>
 
                                             @if ($n->sparepart2 != null)
-                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart2->sparepart }}</p>
+                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart2->sparepart }} - @currency($n->this_sparepart2->harga)</p>
                                             @endif
 
                                             @if ($n->sparepart3 != null)
-                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart3->sparepart }}</p>
+                                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart3->sparepart }} - @currency($n->this_sparepart3->harga)</p>
                                             @endif
                                             <hr>
-                                            <p>Harga Jasa</p>
-                                            <p>Total Harga</p>
+                                            <p>Harga Jasa @currency($n->harga_jasa)</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -115,8 +115,33 @@
                                 </div>
                             </div>
                         </div>
+                        @if ($n->approve_admin != null)
+                        <div class="col-md-6 mt-3">
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Total Harga</p>
+                            @if ($n->sparepart1 != null && $n->sparepart2 == null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($n->this_sparepart1->harga + $n->harga_jasa)</p>
+                            @endif
+
+                            @if ($n->sparepart2 != null && $n->sparepart3 == null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($n->this_sparepart1->harga + $n->this_sparepart2->harga + $n->harga_jasa)</p>
+                            @endif
+                            @if ($n->sparepart3 != null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($n->this_sparepart1->harga + $n->this_sparepart2->harga + $n->this_sparepart3->harga + $n->harga_jasa)</p>
+                            @endif
+                        </div>
+                        @endif
+                        @if ($n->approve_admin != null && $n->confirm_user == null)
                         <div class="col-md-6 mt-3">
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Status</p>
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap"><span class="text-success">Reservasi diterima</span></p>
+                        </div>
+                        @endif
+                        <div class="col-md-6 mt-3">
+                            @if ($n->approve_admin != null && $n->confirm_user == null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Keterangan</p>
+                            @else
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Status</p>
+                            @endif
 
                             @if ($n->wait_admin != null && $n->approve_admin == null)
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">Menunggu Konfirmasi Admin</p>
@@ -125,18 +150,22 @@
                             @if ($n->approve_admin != null && $n->confirm_user == null)
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">
                                 Mohon untuk melakukan penyerahan motor pada
-                                <?php
-                                $date = Carbon\Carbon::parse($n->jadwal);
-                                $formattedDate = $date->translatedFormat('d F Y');
-                                echo $formattedDate;
-                                ?>
+                                <b>
+                                    <?php
+                                    $date = Carbon\Carbon::parse($n->jadwal);
+                                    $formattedDate = $date->translatedFormat('d F Y');
+                                    echo $formattedDate;
+                                    ?>
+                                </b>
 
                                 Pukul
-                                <?php
-                                $date = Carbon\Carbon::parse($n->jadwal);
-                                $formattedDate = $date->translatedFormat('H:i:s');
-                                echo $formattedDate;
-                                ?>
+                                <b>
+                                    <?php
+                                    $date = Carbon\Carbon::parse($n->jadwal);
+                                    $formattedDate = $date->translatedFormat('H:i');
+                                    echo $formattedDate;
+                                    ?>
+                                </b>
                             </p>
                             @endif
 
@@ -152,8 +181,22 @@
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">Motor sedang dalam antrian</p>
                             @endif
 
+                            @if ($n->repair != null && $n->repair_done == null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">Motor sedang diperbaiki</p>
+                            @endif
+
+                            @if ($n->repair_done != null && $n->done == null)
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap"><span class="text-success">Motor selesai diperbaiki</span></p>
+                            @endif
                         </div>
-                        <div class="col-md-6 mt-3"></div>
+                        @if ($n->repair_done != null && $n->done == null)
+                        <div class="col-md-12 my-3">
+                            <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Keterangan</p>
+                            <p for="sparepart" style="margin-bottom: -0.5px;">Mohon untuk mengunduh kwitansi pembayaran dan menunjukan kepada admin saat pengambilan motor</p>
+                        </div>
+
+                        <a href="{{ route('unduhKwitansi', $n->id) }}" class="btn btn-block btn-success">Unduh Kwitansi</a>
+                        @endif
                     </div>
                     @if ($n->approve_admin != null && $n->confirm_user == null)
                     <div class="row justify-content-around mt-3">
