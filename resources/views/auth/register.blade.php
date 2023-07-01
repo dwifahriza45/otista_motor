@@ -1,4 +1,3 @@
-
 @extends('layouts.login.app')
 
 @section('title', 'Halaman Register')
@@ -12,14 +11,14 @@
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
-                
+
                                 <form method="POST" action="{{ route('register') }}">
                                     @csrf
                                     <div class="d-flex align-items-center mb-3 pb-1">
                                         <i class="fas fa-motorcycle mr-2 fa-2x me-3" style="color: #ff6219;"></i>
                                         <span class="h1 fw-bold mb-0">Otista Motor</span>
                                     </div>
-                    
+
                                     <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Daftar sebagai pelanggan</h5>
 
                                     @if (session('status'))
@@ -36,9 +35,9 @@
                                         <input id="name" type="text" class="form-control form-control-lg @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap . . .">
 
                                         @error('name')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
@@ -47,20 +46,31 @@
                                         <input id="email" type="email" class="form-control form-control-lg @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" autocomplete="email" placeholder="example@email.com">
 
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
-                    
+
+                                    <div class="form-outline mb-4">
+                                        <label for="alamat" class="form-label">{{ __('Alamat Lengkap') }}</label>
+                                        <textarea class="form-control form-control-lg @error('alamat') is-invalid @enderror" name="alamat" id="alamat" placeholder="Masukkan alamat lengkap . . ." rows="3">{{ old('email') }}</textarea>
+
+                                        @error('alamat')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-outline mb-4">
                                         <label class="form-label" for="no_hp">No HP</label>
                                         <input id="no_hp" type="number" class="form-control form-control-lg @error('no_hp') is-invalid @enderror" name="no_hp" value="{{ old('no_hp') }}" placeholder="08XX-XXXX-XXXX">
 
                                         @error('no_hp')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
@@ -71,9 +81,9 @@
                                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="*****">
 
                                                 @error('password')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
                                                 @enderror
                                             </div>
 
@@ -83,7 +93,7 @@
                                             </div>
                                         </div>
                                     </div>
-                    
+
                                     <div class="pt-1 mb-4">
                                         <button class="btn btn-dark btn-lg btn-block" style="background-color: #78221c" type="submit">Register</button>
                                     </div>
@@ -91,7 +101,7 @@
                                     <p class="mb-5 pb-lg-2">Sudah punya akun? <a href="{{ route('login') }}" style="color: #78221c;">Login</a></p>
 
                                 </form>
-                
+
                             </div>
                         </div>
                     </div>

@@ -32,7 +32,7 @@
                             <p for="" style="margin-bottom: -0.5px;">{{ $n->this_admin->name }} || <i class="fa-brands fa-whatsapp" style="color: #2bff00;"></i> <a href="">{{ $n->this_admin->no_hp }}</a></p>
                         </div>
                         @endif
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3">
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Motor</p>
                             <a href="" style="margin-bottom: -0.5px;" data-toggle="modal" data-target="#motor{{ $n->this_bike->id }}">{{ $n->this_bike->nama_motor }}</a>
 
@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 mt-3">
                             <p for="sparepart" style="margin-bottom: -0.5px;" class="font-weight-bold">Kilometer</p>
                             <p for="sparepart" style="margin-bottom: -0.5px;">{{ $n->kilometer }} km</p>
                         </div>
@@ -106,7 +106,7 @@
                                             <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">{{ $n->this_sparepart3->sparepart }} - @currency($n->this_sparepart3->harga)</p>
                                             @endif
                                             <hr>
-                                            <p>Harga Jasa @currency($n->harga_jasa)</p>
+                                            <p>Biaya Service @currency($n->harga_jasa)</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -58,7 +58,7 @@
                             <label for="no_kendaraan" class="col-md-4 col-form-label text-md-right">{{ __('Nomor Polisi') }}</label>
 
                             <div class="col-md-6">
-                                <input id="no_kendaraan" type="text" class="form-control @error('no_kendaraan') is-invalid @enderror" name="no_kendaraan" autocomplete="no_kendaraan" value="{{ old('no_kendaraan') }}" autofocus placeholder="Masukkan nama motor . . .">
+                                <input id="no_kendaraan" type="text" class="form-control @error('no_kendaraan') is-invalid @enderror" name="no_kendaraan" autocomplete="no_kendaraan" value="{{ old('no_kendaraan') }}" autofocus placeholder="Masukkan nomor polisi . . .">
 
                                 @error('no_kendaraan')
                                     <span class="invalid-feedback" role="alert">

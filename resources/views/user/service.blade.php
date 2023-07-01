@@ -45,13 +45,13 @@
                                 </select>
                                 @else
                                 <p for="motor_id" style="margin-bottom: -0.5px;" class="font-weight-bold">Motor</p>
-                                <p for="motor_id" style="margin-bottom: -0.5px;" class="text-danger">Mohon untuk mengisi data motor</p>
+                                <p for="motor_id" style="margin-bottom: -0.5px;" class="text-danger"><a href="{{ route('motor') }}" class="text-danger">Mohon untuk mengisi data motor</a></p>
                                 @endif
                             </div>
                         </div>
                         <div class="row justify-content-around mt-3">
                             <div class="col-md-6">
-                                <p for="kilometer" style="margin-bottom: -0.5px;" class="font-weight-bold">Meter</p>
+                                <p for="kilometer" style="margin-bottom: -0.5px;" class="font-weight-bold">Kilometer</p>
                                 <input type="number" class="form-control @error('kilometer') is-invalid @enderror" id="kilometer" name="kilometer" placeholder="Masukkan km motor . . ." value="{{ old('kilometer') }}" autofocus>
 
                                 @error('kilometer')
@@ -121,7 +121,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                @elseif ($motor->count() > 0 && auth()->user()->alamat != null && auth()->user()->no_hp != null && $cekService == 0)
+                                @elseif ($motor->count() > 0 && $cekService == 0)
                                 <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#reservasi"><b>Service</b></button>
 
                                 <!-- Modal Sedang Dalam Process -->
@@ -158,7 +158,7 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
-                                                Mohon untuk melengkapi <b>Profile & Motor</b> terlebih dahulu
+                                                Mohon untuk melengkapi <b>Data Motor</b> terlebih dahulu
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
