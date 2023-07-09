@@ -19,14 +19,6 @@
             <div class="col-md-4">
                 <a href="{{ route('unduhSparepart') }}" class="btn btn-outline-danger mb-2" style="width: 237px;"><i class="fas fa-print"></i> Cetak Data Sparepart</a>
             </div>
-            <!-- <div class="col-md-4">
-                <div class="input-group" style="width: 237px;">
-                    <input id="myInput" class="form-control" type="search" placeholder="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-danger" type="button"><i class="fas fa-search"></i></button>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </div>
 

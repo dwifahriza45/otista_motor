@@ -69,6 +69,12 @@ Route::group(['middleware' => ['auth', 'ceklevel:1']], function () {
     // admin
     Route::get('/admin/dashboard', 'AdminController@index')->name('dashboard');
 
+    Route::get('/admin/kategori/sparepart', 'AdminController@kategoriSparepart')->name('kategoriSparepart');
+    Route::get('/admin/kategori/sparepart/tambah', 'KategoriSparepartController@index')->name('addKategoriSparepart');
+    Route::post('/admin/kategori/sparepart/tambah', 'KategoriSparepartController@addSparepart')->name('addKategoriSparepart');
+    Route::get('/admin/kategori/sparepart/ubah/{id}', 'KategoriSparepartController@updateKategoriSparepart')->name('updateKategoriSparepart');
+    Route::post('/admin/kategori/sparepart/ubah/{id}', 'KategoriSparepartController@update')->name('updateKategoriSparepart');
+
     Route::get('/admin/sparepart', 'AdminController@sparepart')->name('sparepart');
     Route::get('/admin/sparepart/tambah', 'SparepartController@index')->name('addSparepart');
     Route::post('/admin/sparepart/tambah', 'SparepartController@addSparepart')->name('addSparepart');

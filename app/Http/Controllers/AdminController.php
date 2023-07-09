@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Service;
 use App\Sparepart;
+use App\KategoriSparepart;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -39,15 +40,26 @@ class AdminController extends Controller
         return view('admin/dashboard', compact('countAdmin', 'countPelanggan', 'countQueu', 'service', 'reservasiTolak', 'reservasiBatal', 'reservasiSelesai', 'countRepair', 'countRepairDone', 'totalReservasi', 'countService'));
     }
 
+    public function kategoriSparepart() {
+        $kategori = DB::table('kategori_sparepart')
+                    ->orderBy('kategori', 'ASC')
+                    ->get();
+        return view('admin/dataKategoriSparepart', compact('kategori'));
+    }
+
     public function sparepart()
     {
-        $sparepart = DB::table('spareparts')->get();
+        $sparepart = DB::table('spareparts')
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
         return view('admin/dataSparepart', compact('sparepart'));
     }
 
     public function service()
     {
-        $service = Service::whereNotNull('in_process')->get();
+        $service = Service::whereNotNull('in_process')
+                   ->orderBy('created_at', 'DESC')
+                   ->get();
         return view('admin/dataService', compact('service'));
     }
 
@@ -66,6 +78,7 @@ class AdminController extends Controller
         $user = User::find(Auth::user()->id);
         $admin = DB::table('users')
             ->where('role_id', 1)
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         return view('admin/dataAdmin', compact('user', 'admin'));

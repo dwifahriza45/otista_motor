@@ -75,6 +75,13 @@
             </div>
 
             <!-- Nav Item - Data Sparepart -->
+            <li class="nav-item {{request()->is('admin/kategori/sparepart') ? ' active' : ''}}">
+                <a class="nav-link" href="{{ route('kategoriSparepart') }}">
+                    <i class="fas fa-fw fa-tools"></i>
+                    <span>Kategori Sparepart</span></a>
+            </li>
+
+            <!-- Nav Item - Data Sparepart -->
             <li class="nav-item {{request()->is('admin/sparepart') ? ' active' : ''}}">
                 <a class="nav-link" href="{{ route('sparepart') }}">
                     <i class="fas fa-fw fa-tools"></i>

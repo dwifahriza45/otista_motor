@@ -17,7 +17,9 @@ class MotorController extends Controller
 
     public function motor()
     {
-        $data = DB::table('motor_type')->get();
+        $data = DB::table('motor_type')
+                ->orderBy('created_at', 'DESC')
+                ->get();
         return view('user/motor/tambah', compact('data'));
     }
 

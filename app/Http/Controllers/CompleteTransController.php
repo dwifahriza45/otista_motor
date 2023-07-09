@@ -11,13 +11,16 @@ class CompleteTransController extends Controller
         $userId = Auth::id();
         $transaksi = Service::where('user_id', $userId)
                 ->whereNull('in_process')
+                ->orderBy('created_at', 'DESC')
                 ->get();
         return view('user/transaksi/complete', compact('transaksi'));
     }
 
     public function transAdmin()
     {
-        $transaksi = Service::whereNull('in_process')->get();
+        $transaksi = Service::whereNull('in_process')
+                    ->orderBy('created_at', 'DESC')
+                    ->get();
         return view('admin/transaksi/complete', compact('transaksi'));
     }
 }
