@@ -150,10 +150,39 @@ class ServiceController extends Controller
     }
 
     public function inputDone($id)  {
+        $get = Service::where('id', $id)->get();
+        
+        $sparepart1 = ($get[0]['sparepart1']);
+        $sparepart2 = ($get[0]['sparepart2']);
+        $sparepart3 = ($get[0]['sparepart3']);
+
+        $sparepartData1['stok'] = $get[0]['this_sparepart1']['stok'] - 1;
+        $sparepartData2['stok'] = $get[0]['this_sparepart2']['stok'] - 1;
+        $sparepartData3['stok'] = $get[0]['this_sparepart3']['stok'] - 1;
+
         $validateData['done'] = Carbon::now()->format('Y-m-d H:i:s');
         $validateData['in_process'] = null;
-        Service::where('id', $id)->update($validateData);
-        return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
+
+        if ($sparepart3 != null) {
+            Sparepart::where('id', $sparepart1)->update($sparepartData1);
+            Sparepart::where('id', $sparepart2)->update($sparepartData2);
+            Sparepart::where('id', $sparepart3)->update($sparepartData3);
+            Service::where('id', $id)->update($validateData);
+            return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
+        }
+
+        if ($sparepart2 != null) {
+            Sparepart::where('id', $sparepart1)->update($sparepartData1);
+            Sparepart::where('id', $sparepart2)->update($sparepartData2);
+            Service::where('id', $id)->update($validateData);
+            return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
+        }
+
+        if ($sparepart1 != null) {
+            Sparepart::where('id', $sparepart1)->update($sparepartData1);
+            Service::where('id', $id)->update($validateData);
+            return redirect()->route('service')->with('status', 'Berhasil konfirmasi motor selesai perbaikan!');
+        }
     }
 
     public function batal_user(Request $request, $id)
