@@ -38,6 +38,7 @@
                     <th scope="col">No</th>
                     <th scope="col">Sparepart</th>
                     <th scope="col">Stok</th>
+                    <th scope="col">Kategori</th>
                     <th scope="col">Harga</th>
                     <th scope="col">Aksi</th>
                 </tr>
@@ -49,6 +50,7 @@
                     <th scope="row">{{ $i++ }}</th>
                     <td>{{ $s->sparepart }}</td>
                     <td>{{ $s->stok }}</td>
+                    <td>{{ $s->this_kategori->kategori }}</td>
                     <td>@currency($s->harga)</td>
                     <td>
                         <a href="{{ route('updateSparepart', $s->id) }}" class="btn btn-success mb-2" data="tooltip" data-placement="top" title="Ubah"><i class="fas fa-edit"></i></a>

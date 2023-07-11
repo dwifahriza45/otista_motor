@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 use App\Sparepart;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SparepartController extends Controller
 {
     public function index()
     {
-        return view('admin/sparepart/tambahSparepart');
+        $data = DB::table('kategori_sparepart')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        return view('admin/sparepart/tambahSparepart', compact('data'));
     }
 
     public function addSparepart(Request $request)
@@ -25,6 +29,7 @@ class SparepartController extends Controller
         $validateData = $request->validate([
             'sparepart' => 'required',
             'stok' => ['required', 'numeric'],
+            'kategori_id' => 'required',
             'harga' => ['required', 'numeric'],
         ], $messages);
 
@@ -39,7 +44,8 @@ class SparepartController extends Controller
     public function updateSparepart($id)
     {
         $data = Sparepart::find($id);
-        return view('admin/sparepart/ubahSparepart', compact('data'));
+        $tipe = DB::table('kategori_sparepart')->get();
+        return view('admin/sparepart/ubahSparepart', compact('data', 'tipe'));
     }
 
     public function update(Request $request, $id)
@@ -55,6 +61,7 @@ class SparepartController extends Controller
         $validateData = $request->validate([
             'sparepart' => 'required',
             'stok' => ['required', 'numeric'],
+            'kategori_id' => 'required',
             'harga' => ['required', 'numeric'],
         ], $messages);
 

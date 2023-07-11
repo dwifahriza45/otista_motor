@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Service;
 use App\Sparepart;
-use App\KategoriSparepart;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -49,9 +48,7 @@ class AdminController extends Controller
 
     public function sparepart()
     {
-        $sparepart = DB::table('spareparts')
-                    ->orderBy('created_at', 'DESC')
-                    ->get();
+        $sparepart = Sparepart::orderBy('created_at', 'ASC')->get();
         return view('admin/dataSparepart', compact('sparepart'));
     }
 

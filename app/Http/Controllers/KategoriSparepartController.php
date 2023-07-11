@@ -51,4 +51,11 @@ class KategoriSparepartController extends Controller
 
         return redirect()->route('kategoriSparepart')->with('status', 'Berhasil mengubah kategori sparepart');
     }
+
+    public function delete($id)
+    {
+        $data = KategoriSparepart::find($id);
+        $data->delete();
+        return redirect()->route('kategoriSparepart')->with('status', 'Kategori sparepart berhasil dihapus!');
+    }
 }

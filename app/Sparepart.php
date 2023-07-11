@@ -12,4 +12,9 @@ class Sparepart extends Model
     protected $guarded = [
         'id'
     ];
+
+    public function this_kategori()
+    {
+        return $this->hasOne(KategoriSparepart::class, 'id', 'kategori_id');
+    }
 }

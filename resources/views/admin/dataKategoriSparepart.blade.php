@@ -43,7 +43,28 @@
                     <td>{{ $k->kategori }}</td>
                     <td>
                         <a href="{{ route('updateKategoriSparepart', $k->id) }}" class="btn btn-success mb-2" data="tooltip" data-placement="top" title="Ubah"><i class="fas fa-edit"></i></a>
-                        <a href="" class="btn btn-danger mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Hapus"><i class="fas fa-trash"></i></a>
+                        <a href="" class="btn btn-danger mb-2" data-toggle="modal" data="tooltip" data-placement="top" title="Hapus" data-target="#delete{{ $k->id }}"><i class="fas fa-trash"></i></a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="delete{{ $k->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Hapus Kategori Sparepart {{ $k->kategori }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Yakin ingin menghapus kategori sparepart tersebut
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a href="{{ route('hapusKategoriSparepart', $k->id) }}" class="btn btn-danger">Hapus</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 @endforeach

@@ -41,9 +41,9 @@
                                 <label for="sparepart">Sparepart</label>
                                 <input type="text" class="form-control @error('sparepart') is-invalid @enderror" id="sparepart" name="sparepart" value="{{ old('sparepart') }}" autocomplete="sparepart" autofocus placeholder="Masukkan sparepart . . .">
                                 @error('sparepart')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
 
@@ -51,19 +51,29 @@
                                 <label for="stok">Jumlah Stok</label>
                                 <input type="number" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" value="{{ old('stok') }}" autocomplete="stok" autofocus placeholder="Jumlah stok . . .">
                                 @error('stok')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="kategori_id">{{ __('Kategori Sparepart') }}</label>
+                                <select class="form-control @error('kategori_id') is-invalid @enderror" id="kategori_id" name="kategori_id">
+                                    <option value="#">- Pilih -</option>
+                                    @foreach ($data as $d)
+                                    <option value="{{ $d->id }}">{{ $d->kategori }}</option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div class="form-group">
                                 <label for="harga">Harga</label>
                                 <input type="number" class="form-control @error('harga') is-invalid @enderror" id="harga" name="harga" value="{{ old('harga') }}" autocomplete="harga" autofocus placeholder="Harga . . .">
                                 @error('harga')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
 
