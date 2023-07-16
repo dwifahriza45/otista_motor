@@ -1,37 +1,3 @@
-.jumbotron .container a {
-    position: relative;
-    z-index: 15;
-}
-
-.jumbotron {
-    background-image: url("../img/landing/otista2.jpg");
-    height: 502px;
-    background-size: cover;
-    text-align: center;
-    position: relative;
-}
-
-.jumbotron .container {
-    position: relative;
-}
-
-.jumbotron::after {
-    content: "";
-    display: block;
-    width: 100%;
-    height: 80%;
-    background-image: linear-gradient(to top,
-            rgba(0, 0, 0, 1),
-            rgba(0, 0, 0, 0));
-    position: absolute;
-    bottom: 0;
-}
-
-.jumbotron .display-5 {
-    margin-top: 125px;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
-}
-
 .hide {
     display: none;
 }
@@ -42,4 +8,11 @@
 
 div.dataTables_wrapper {
     margin-bottom: 3em;
+}
+
+.bg-landing {
+    background-image: url("../img/landing/bg.png");
+    background-size: contain; 
+    background-repeat:no-repeat; 
+    background-position: left;
 }

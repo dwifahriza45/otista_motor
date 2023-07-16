@@ -3,11 +3,11 @@
 @section('title', 'Halaman Register')
 
 @section('content')
-<section class="vh-100">
+<section class="vh-100" style="margin-bottom: 300px;">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center">
             <div class="col col-xl-8">
-                <div class="card">
+                <div class="card shadow">
                     <div class="row">
                         <div class="col d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">

@@ -209,7 +209,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        @if ($s->harga_jasa == null)
                                         <button type="submit" class="btn btn-success">Input</button>
+                                        @endif
                                         </form>
                                     </div>
                                 </div>
@@ -224,6 +226,7 @@
                         @if ($s->sparepart2 != null && $s->sparepart3 == null)
                         <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($s->this_sparepart1->harga + $s->this_sparepart2->harga + $s->harga_jasa)</p>
                         @endif
+
                         @if ($s->sparepart3 != null)
                         <p for="sparepart" style="margin-bottom: -0.5px;" class="text-wrap">@currency($s->this_sparepart1->harga + $s->this_sparepart2->harga + $s->this_sparepart3->harga + $s->harga_jasa)</p>
                         @endif

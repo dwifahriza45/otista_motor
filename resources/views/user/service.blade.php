@@ -100,7 +100,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 @if ($cekService > 0)
-                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#process"><b>Service</b></button>
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#process" style="background-color: #78221c"><b>Service</b></button>
 
                                 <!-- Modal Konfirmasi Reservasi -->
                                 <div class="modal fade" id="process" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -122,7 +122,7 @@
                                     </div>
                                 </div>
                                 @elseif ($motor->count() > 0 && $cekService == 0)
-                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#reservasi"><b>Service</b></button>
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#reservasi" style="background-color: #78221c"><b>Service</b></button>
 
                                 <!-- Modal Sedang Dalam Process -->
                                 <div class="modal fade" id="reservasi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -145,7 +145,7 @@
                                     </div>
                                 </div>
                                 @else
-                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#lengkapi"><b>Service</b></button>
+                                <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#lengkapi" style="background-color: #78221c"><b>Service</b></button>
 
                                 <!-- Modal Lengkapi Profile & Motor -->
                                 <div class="modal fade" id="lengkapi" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -196,11 +196,17 @@
                         </thead>
                         <tbody>
                             @php $i = 1; @endphp
-                            @foreach ($sparepart as $s)
+                            @foreach ($sparepartAll as $s)
                             <tr>
                                 <th scope="row">{{ $i++ }}</th>
                                 <td>{{ $s->sparepart }}</td>
-                                <td>Tersedia</td>
+                                @if ($s->active == 1)
+                                <td>{{$s->stok}} Unit</td>
+                                @endif
+
+                                @if ($s->active == 0)
+                                <td>Kosong</td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

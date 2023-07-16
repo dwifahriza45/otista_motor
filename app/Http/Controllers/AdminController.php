@@ -48,7 +48,7 @@ class AdminController extends Controller
 
     public function sparepart()
     {
-        $sparepart = Sparepart::orderBy('created_at', 'ASC')->get();
+        $sparepart = Sparepart::orderBy('sparepart', 'ASC')->get();
         return view('admin/dataSparepart', compact('sparepart'));
     }
 

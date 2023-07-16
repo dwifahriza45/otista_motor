@@ -15,6 +15,9 @@
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
 
+    <!-- CSS Files -->
+    <link href="{{ URL::asset('/css/argon-design-system.css?v=1.2.2') }}" rel="stylesheet" />
+
     <!-- My Style -->
     <link rel="stylesheet" type="text/css" href="{{ URL::asset('css/style.css')}}">
     <link href="{{ URL::asset('/css/tooltips.css') }}" rel="stylesheet">
@@ -24,40 +27,41 @@
 
 <body>
     @guest
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #78221c">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg bg-white navbar-light position-sticky top-0 shadow py-2" style="background-color: #78221c">
         <div class="container">
-            <a class="navbar-brand" href="{{URL::to('/')}}"><i class="fas fa-motorcycle mr-2"></i> Otista Motor</a>
+            <a class="navbar-brand mr-lg-5" href="{{URL::to('/')}}"><i class="fas fa-motorcycle mr-2"></i> Otista Motor</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <div class="dropdown">
-                            <a href="#" class="btn {{request()->is('login/user') ? ' active' : ''}} text-light dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Login
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="{{ route('login') }}">Pelanggan</a>
-                                <a class="dropdown-item" href="{{ route('loginAdmin') }}">Admin</a>
-                            </div>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link {{request()->is('login/user') ? ' active' : ''}}" data-toggle="dropdown" href="#" role="button">
+                            <i class="ni ni-collection d-lg-none"></i>
+                            <span class="nav-link-inner--text">Login</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('login') }}">Pelanggan</a>
+                            <a class="dropdown-item" href="{{ route('loginAdmin') }}">Admin</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{{request()->is('register') ? ' active' : ''}}" href="{{ route('register') }}">Register <span class="sr-only">(current)</span></a>
+                        <a class="nav-link {{request()->is('register') ? ' active' : ''}}" href="{{ route('register') }}">Register <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     @else
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #78221c">
+    <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg bg-white navbar-light position-sticky top-0 shadow py-2" style="background-color: #78221c">
         <div class="container">
-            <a class="navbar-brand" href="{{URL::to('/')}}"><i class="fas fa-motorcycle mr-2"></i>Otista Motor</a>
+            <a class="navbar-brand mr-lg-5" href=""><i class="fas fa-motorcycle mr-2"></i> Otista Motor</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+
+            <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     @if ( auth()->user()->role_id == 2 )
                     <li class="nav-item">
@@ -72,27 +76,6 @@
             </div>
         </div>
     </nav>
-
-    <!-- Modal Logout -->
-    <div class="modal fade" id="logout" tabindex="-1" aria-labelledby="logout" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Logout</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Yakin ingin <span class="font-weight-bold">Logout</span>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <a href="{{ route('logout') }}" class="btn text-light" style="background-color: #78221c">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
     @endguest
 
     @yield('content')
@@ -107,9 +90,8 @@
                     <!-- Grid column -->
                     <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                         <!-- Content -->
-                        <h6 class="text-uppercase fw-bold">Otista Motor</h6>
+                        <h6 class="text-uppercase fw-bold text-white">Otista Motor</h6>
                         <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #FFF; height: 2px" />
-
                         <p>
                             Jl. Otto Iskandardinata No.80, Nanggeleng, Kec. Citamiang, Kota Sukabumi, Jawa Barat 43143
                         </p>
@@ -119,7 +101,7 @@
                     <!-- Grid column -->
                     <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold">Produk</h6>
+                        <h6 class="text-uppercase fw-bold text-white">Produk</h6>
                         <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #FFF; height: 2px" />
 
                         <p><a href="#!" class="text-white">Service</a></p>
@@ -132,7 +114,7 @@
                     <!-- Grid column -->
                     <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                         <!-- Links -->
-                        <h6 class="text-uppercase fw-bold">Kontak</h6>
+                        <h6 class="text-uppercase fw-bold text-white">Kontak</h6>
                         <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #FFF; height: 2px" />
 
                         <p><i class="fas fa-home mr-3"></i> Kota Sukabumi, Indonesia</p>
@@ -150,12 +132,11 @@
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
             &copy; {{ date('Y') }} Copyright
-            <a class="text-white" href="{{URL::to('/')}}">Otista Motor</a>
+            <a class="text-white" href="">Otista Motor</a>
         </div>
         <!-- Copyright -->
     </footer>
     <!-- Footer -->
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
